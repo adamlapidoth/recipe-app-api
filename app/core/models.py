@@ -16,12 +16,28 @@ class UserManager(BaseUserManager):
         """
         Create save and return a new user
         :param email: Email address
-        :param password: USer password
+        :param password: User password
         :param extra_fields: Any extra fields
         :return: A new user
         """
-        user = self.model(email=email, **extra_fields)
+        if not email:
+            raise ValueError("User must have an email address")
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password):
+        """
+        Create and return a new superuser
+        :param email: An email address
+        :param password: User password
+        :return: A new superuser
+        """
+        user = self.create_user(email=email, password=password)
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
 
         return user
