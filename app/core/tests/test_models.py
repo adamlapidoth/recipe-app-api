@@ -1,9 +1,14 @@
 """
 Tests for models.
 """
+from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+
+from core import models
+
+TEST_EMAIL = "test@example.com"
 
 
 class ModelTest(TestCase):
@@ -11,7 +16,7 @@ class ModelTest(TestCase):
 
     def test_create_user_with_email_successful(self):
         """Test creating a user with an email is successful"""
-        email = "test@example.com"
+        email = TEST_EMAIL
         password = "testpass123"
         user = get_user_model().objects.create_user(
             email=email,
@@ -40,8 +45,24 @@ class ModelTest(TestCase):
     def test_create_superuser(self):
         """Test creating a superuser"""
         user = get_user_model().objects.create_superuser(
-            "test@example.com",
+            TEST_EMAIL,
             "test123",
         )
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_recipe(self):
+        """Test creating a recipe is siccessful"""
+        user = get_user_model().objects.create_user(
+            TEST_EMAIL,
+            "testpass123",
+        )
+        recipe = models.Recipe.objects.create(
+            user=user,
+            title="Sample recipe name",
+            time_minutes=5,
+            price=Decimal("5.50"),
+            description="Sample recipe description",
+        )
+
+        self.assertEqual(str(recipe), recipe.title)
