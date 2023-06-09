@@ -63,8 +63,9 @@ class PrivateRecipeAPITests(TestCase):
 
     def setUp(self) -> None:
         self.client = APIClient()
-        self.user = create_user(email="user@example.com",
-                                password="testpass123")
+        self.user = create_user(
+            email="user@example.com", password="testpass123"
+        )
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -81,8 +82,9 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test retrieving a list of recipes"""
-        other_user = create_user(email="other@example.com",
-                                 password="password123")
+        other_user = create_user(
+            email="other@example.com", password="password123"
+        )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
 
@@ -107,7 +109,7 @@ class PrivateRecipeAPITests(TestCase):
         payload = {
             "title": "Sample.recipe",
             "time_minutes": 30,
-            "price": Decimal("5.99")
+            "price": Decimal("5.99"),
         }
         res = self.client.post(RECIPES_URL, payload)
 
@@ -141,7 +143,7 @@ class PrivateRecipeAPITests(TestCase):
             user=self.user,
             title=RECIPE_TITLE,
             link="https://example.com/recipe.pdf",
-            description="Sample recipe description"
+            description="Sample recipe description",
         )
 
         payload = {
