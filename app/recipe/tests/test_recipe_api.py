@@ -48,7 +48,7 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 
-class PublicRecipeAPITests(TestCase):
+class PublicRecipeApiTests(TestCase):
     """Test unauthenticated API requests"""
 
     def setUp(self) -> None:
@@ -61,7 +61,7 @@ class PublicRecipeAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateRecipeAPITests(TestCase):
+class PrivateRecipeApiTests(TestCase):
     """Test authenticated API requests"""
 
     def setUp(self) -> None:
