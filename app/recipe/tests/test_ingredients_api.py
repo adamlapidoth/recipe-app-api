@@ -19,7 +19,7 @@ def detail_url(ingredient_id):
 
 
 def create_user(
-        email: str = "user@example.com", password: str = "testpass123"
+    email: str = "user@example.com", password: str = "testpass123"
 ):
     return get_user_model().objects.create_user(email=email, password=password)
 
